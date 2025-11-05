@@ -4,9 +4,10 @@ using TMPro; // kalau pakai TextMeshPro
 
 public class GameManager : MonoBehaviour
 {
-    // Panel UI
+    [Header("Panel UI")]
     public GameObject mainMenuPanel;
     public GameObject gameOverPanel;
+    public GameObject leaderboardPanel; // <-- TAMBAHKAN INI
 
     public GameObject gameOverUI; // panel atau teks Game Over
     public GameObject restartButton;
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
         if (mainMenuPanel != null) mainMenuPanel.SetActive(true);
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
+        if (leaderboardPanel != null) leaderboardPanel.SetActive(false); // <-- TAMBAHKAN INI
         if (gameOverUI != null) gameOverUI.SetActive(false);
         if (restartButton != null) restartButton.SetActive(false);
     }
@@ -97,5 +99,20 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    // --- FUNGSI BARU UNTUK TUKAR PANEL ---
+    // Fungsi ini akan dipanggil oleh Tombol "Leaderboard"
+    public void OpenLeaderboard()
+    {
+        if (gameOverPanel != null) gameOverPanel.SetActive(false);
+        if (leaderboardPanel != null) leaderboardPanel.SetActive(true);
+    }
+
+    // Fungsi ini akan dipanggil oleh Tombol "Kembali"
+    public void CloseLeaderboard()
+    {
+        if (leaderboardPanel != null) leaderboardPanel.SetActive(false);
+        if (gameOverPanel != null) gameOverPanel.SetActive(true);
     }
 }
