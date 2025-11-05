@@ -14,6 +14,10 @@ public class PlayerController : MonoBehaviour
     private Collider2D coll;
     private bool isGrounded;         // Status menapak tanah (dari raycast)
 
+	private int currentScore = 0;      // Skor saat ini (sudah ada)
+	private float scoreAccumulator = 0f; // Penampung skor (desimal)
+	public float scoreMultiplier = 10f;    // Poin yang didapat per detik
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -36,6 +40,18 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
+
+		// --- 4. TAMBAHKAN LOGIKA SKOR INI ---
+		// Cek apakah game sedang berjalan (tidak di-pause/di main menu)
+		if (Time.timeScale > 0f)
+		{
+			// Tambah skor berdasarkan waktu (Time.deltaTime) dikali pengali
+			scoreAccumulator += Time.deltaTime * scoreMultiplier;
+
+			// Bulatkan skor ke 'int' agar jadi angka bulat
+			currentScore = Mathf.FloorToInt(scoreAccumulator);
+		}
+		// ------------------------------------
     }
 
     void CheckGround()
