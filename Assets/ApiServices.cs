@@ -15,7 +15,7 @@ using System; // Diperlukan untuk 'Action'
 public class ApiService : MonoBehaviour
 {
     // !!! GANTI URL INI dengan URL API .NET Anda (cek port-nya) !!!
-    private string apiUrl = "http://localhost:5123/api/Highscores"; 
+    private string apiUrl = "http://localhost:5115/api/Highscores"; 
     
     // Model data internal untuk MENGIRIM skor
     [System.Serializable]

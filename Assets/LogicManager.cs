@@ -8,37 +8,46 @@ using TMPro;
 
 public class LogicManager : MonoBehaviour
 {
-    public int playerScore;
-    public TextMeshProUGUI scoreText;
-    // public GameObject gameOverScreen; // <-- GANTI INI
-    
-    // --- TAMBAHKAN DUA BARIS INI ---
-    // 1. Referensi ke panel UI baru kita
-    public GameOverUI gameOverUI; 
-    // 2. Tambahkan bool agar game over tidak dipanggil berkali-kali
+    // === Variabel Inti ===
+    public int playerScore; // Skor ini yang akan dikirim
+    public TextMeshProUGUI scoreText; // UI Teks untuk skor
+    public GameOverUI gameOverUI; // Panel Game Over
     private bool isGameOver = false;
 
-    // ... (fungsi Start() dan [ContextMenu("Increase Score")]) ...
+    // === Variabel Skor Baru (Dipindah dari PlayerController) ===
+    [Header("Score Settings")]
+    public float scoreMultiplier = 10f; // Pastikan ini tidak 0 di Inspector
+    private float scoreAccumulator = 0f;
 
-    public void addScore(int scoreToAdd)
+    
+    // FUNGSI UPDATE BARU: untuk menghitung skor
+    void Update()
     {
-        // Pastikan game belum berakhir sebelum menambah skor
+        // Hanya hitung skor jika game sedang berjalan
         if (!isGameOver)
         {
-            playerScore = playerScore + scoreToAdd;
+            // 1. Akumulasi skor berdasarkan waktu
+            scoreAccumulator += Time.deltaTime * scoreMultiplier;
+            playerScore = Mathf.FloorToInt(scoreAccumulator);
+            
+            // 2. Update teks UI
             scoreText.text = playerScore.ToString();
         }
     }
 
+    // Fungsi ini TIDAK DIPAKAI LAGI, karena 'Update' sudah menanganinya
+    // public void addScore(int scoreToAdd)
+    // { ... }
+
+
     public void restartGame()
     {
+        Time.timeScale = 1f; // Pastikan game berjalan lagi saat restart
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void gameOver()
     {
-        // --- GANTI FUNGSI INI ---
-
         // Cek jika game sudah berakhir, jangan lakukan apa-apa
         if (isGameOver)
         {
@@ -48,12 +57,10 @@ public class LogicManager : MonoBehaviour
         // Tandai game sudah berakhir
         isGameOver = true;
 
-        // Nonaktifkan game over screen lama Anda (jika masih ada)
-        // gameOverScreen.SetActive(true); // <-- HAPUS/KOMENTARI BARIS INI
-
-        // Panggil panel UI baru dan kirimkan skor akhir
+        // Panggil panel UI baru dan KIRIMKAN SKOR AKHIR
         if (gameOverUI != null)
         {
+            // 'playerScore' sekarang punya nilai yang benar (misal: 10)
             gameOverUI.ShowPanel(playerScore);
         }
         else

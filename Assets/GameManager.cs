@@ -53,6 +53,8 @@ public class GameManager : MonoBehaviour
         }
 
         GameOver(skorFinal);
+
+        gameOverUI.SetActive(true);
     }
 
     // Overload yang menerima skor akhir dan menampilkan ke UI
